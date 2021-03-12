@@ -1,0 +1,5 @@
+{% extends 'markdown/index.md.j2' %}
+
+{% block markdowncell scoped %}
+{{ cell.source }}
+{% endblock markdowncell %}
