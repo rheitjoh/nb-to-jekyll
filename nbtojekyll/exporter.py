@@ -15,8 +15,13 @@ class JekyllExporter(MarkdownExporter):
         * Generates binder link text snippet
     """
 
-    # Name for use with "File -> Download" menu
+    # name for use with "File -> Download" menu
     export_from_notebook = "JekyllMD"
+
+    # path to available template files
+    extra_template_basedirs = [
+        os.path.join(os.path.dirname(__file__), "templates")
+    ]
 
     @default("template_name")
     def _template_name_default(self):
@@ -31,4 +36,4 @@ class JekyllExporter(MarkdownExporter):
 
         Note: nbconvert 6.0 changed ``template_path`` to ``template_paths``
         """
-        return super().template_paths + [os.path.join(os.path.dirname(__file__), "templates")]
+        return super()._template_paths() + [os.path.join(os.path.dirname(__file__), "templates")]

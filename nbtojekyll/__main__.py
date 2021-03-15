@@ -1,9 +1,4 @@
-import nbformat
-import argparse
+from .nbtojekyll import NBToJekyll
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert a Jupyter Notebook to Jekyll Markdown.")
-    parser.add_argument(metavar="notebook", nargs="+",
-                        help="a notebook to convert", dest="notebooks")
-    args = parser.parse_args()
-    print(args.notebooks)
+    NBToJekyll.launch_instance()
