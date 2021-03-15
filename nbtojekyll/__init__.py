@@ -1,2 +1,2 @@
 from .exporter import JekyllExporter
-from .preprocessor import JekyllPreprocessor
+from .preprocessor import JekyllPreprocessor, JavaMagicsPreprocessor
