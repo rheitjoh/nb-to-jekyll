@@ -1,7 +1,6 @@
 import os
 
 from nbconvert.exporters import MarkdownExporter
-from traitlets import default
 from traitlets.config import Config
 
 
@@ -25,7 +24,11 @@ class JekyllExporter(MarkdownExporter):
     ]
 
     # enable the jekyll preprocessor
-    preprocessors = ["nbtojekyll.JekyllPreprocessor", "nbtojekyll.JavaMagicsPreprocessor"]
+    preprocessors = [
+        "nbtojekyll.FrontMatterPreprocessor",
+        "nbtojekyll.JavaMagicsPreprocessor",
+        "nbtojekyll.LatexDelimiterPreprocessor"
+    ]
 
     # name of the template to use for exporting
     template_name = "jekyllmd"
@@ -34,8 +37,9 @@ class JekyllExporter(MarkdownExporter):
     def default_config(self):
         """Default configuration"""
         config = Config({
-            "JekyllPreprocessor": {"enabled": True},
-            "JavaMagicsPreprocessor": {"enabled": True}
+            "FrontMatterPreprocessor": {"enabled": True},
+            "JavaMagicsPreprocessor": {"enabled": True},
+            "LatexDelimiterPreprocessor": {"enabled": True}
         })
         config.merge(super().default_config)
         # we use our own magics preprocessor so we remove the default one

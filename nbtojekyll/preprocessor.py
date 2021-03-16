@@ -1,8 +1,9 @@
+import re
+
 from nbconvert.preprocessors import Preprocessor, HighlightMagicsPreprocessor
-from traitlets import Dict
 
 
-class JekyllPreprocessor(Preprocessor):
+class FrontMatterPreprocessor(Preprocessor):
     """Preprocessor to add Jekyll metadata"""
 
     def preprocess(self, nb, resources):
@@ -34,12 +35,47 @@ class JavaMagicsPreprocessor(HighlightMagicsPreprocessor):
         the other language is returned.
         If no language magic is detected, this function returns java.
 
-        Parameters
-        ----------
-        source: str
-            Source code of the cell to highlight
+        :param source: Source code of the cell to highlight
         """
         magic_language = super().which_magic_language(source)
         if magic_language is None:
             # we assume java in this case
             return "java"
+
+
+class LatexDelimiterPreprocessor(Preprocessor):
+
+    # TODO: Add replacements and regexes for other delimiters, e.g. $$, \(, \[ etc.
+    # stores incorrect delimiter regex patterns and the correct delimiter to replace them with
+    delimiters = [
+        # matches $ but not \\$ and not $$ or $$$, i.e. not an escaped dollar sign or multiple
+        # dollar signs
+        (re.compile(r"(?<!\\\\)(?<!\$)\$(?!\$)"), r"$$")
+    ]
+
+    def fix_math_delimiters(self, cell):
+        """
+        Replaces incorrect math delimiters in the given cell by the correct ones
+        """
+        # only change delimiters in markdown cells
+        if cell.cell_type == "markdown":
+            cell.source = self.fix_markdown_delimiter(cell.source)
+        return cell
+
+    def fix_markdown_delimiter(self, md_str):
+        """
+        Replaces incorrect math delimiters in the given Markdown string by the correct delimiter
+        """
+        for regex, replacement in self.delimiters:
+            # replace all occurences of the matched regex with the correct delimiter value
+            md_str = regex.sub(replacement, md_str, count=0)
+        return md_str
+
+
+    def preprocess(self, nb, resources):
+        """
+        Preprocesses the notebook by replacing incorrect math delimiters by correct ones
+        """
+        nb.cells = [self.fix_math_delimiters(cell) for cell in nb.cells]
+
+        return nb, resources
