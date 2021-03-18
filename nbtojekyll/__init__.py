@@ -1,3 +1,5 @@
 from .exporter import JekyllExporter
-from .preprocessor import FrontMatterPreprocessor, JavaMagicsPreprocessor, \
-    LatexDelimiterPreprocessor
+from preprocessors.frontmatterpreprocessor import FrontMatterPreprocessor
+from preprocessors.imageextractionpreprocessor import ImageExtractionPreprocessor
+from preprocessors.javamagicspreprocessor import JavaMagicsPreprocessor
+from preprocessors.latexdelimiterpreprocessor import LatexDelimiterPreprocessor

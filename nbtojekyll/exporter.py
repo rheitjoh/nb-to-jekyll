@@ -25,9 +25,9 @@ class JekyllExporter(MarkdownExporter):
 
     # enable the jekyll preprocessors
     preprocessors = [
-        "nbtojekyll.FrontMatterPreprocessor",
-        "nbtojekyll.JavaMagicsPreprocessor",
-        "nbtojekyll.LatexDelimiterPreprocessor"
+        "nbtojekyll.preprocessors.FrontMatterPreprocessor",
+        "nbtojekyll.preprocessors.JavaMagicsPreprocessor",
+        "nbtojekyll.preprocessors.LatexDelimiterPreprocessor"
     ]
 
     # name of the template to use for exporting

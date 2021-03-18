@@ -1,8 +1,15 @@
-from nbconvert.nbconvertapp import NbConvertApp
+from nbconvert.nbconvertapp import NbConvertApp, nbconvert_aliases
 from traitlets import default, observe
+
+nbtojekyll_aliases = {}
+nbtojekyll_aliases.update(nbconvert_aliases)
+nbtojekyll_aliases.update({
+    "image-dir": "NBConvertApp.output_files_dir"
+})
 
 
 class NBToJekyll(NbConvertApp):
+    aliases = nbtojekyll_aliases
 
     @default("export_format")
     def _export_format_default(self):
