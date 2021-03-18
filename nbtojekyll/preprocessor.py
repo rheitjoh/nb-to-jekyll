@@ -45,11 +45,14 @@ class JavaMagicsPreprocessor(HighlightMagicsPreprocessor):
 
 class LatexDelimiterPreprocessor(Preprocessor):
 
-    # TODO: Add replacements and regexes for other delimiters, e.g. $$, \(, \[ etc.
     # stores incorrect delimiter regex patterns and the correct delimiter to replace them with
+    # order of processing is important here
     delimiters = [
+        # matches $$ but not \\$$. Replace with \n$$\n since we don't know whether we are at
+        # beginning or end of the math block
+        (re.compile(r"(?<!\\\\)\$\$"), "\n$$\n"),
         # matches $ but not \\$ and not $$ or $$$, i.e. not an escaped dollar sign or multiple
-        # dollar signs
+        # dollar signs. $ gets replaced by $$ since that is default Kramdown math delimiter
         (re.compile(r"(?<!\\\\)(?<!\$)\$(?!\$)"), r"$$")
     ]
 

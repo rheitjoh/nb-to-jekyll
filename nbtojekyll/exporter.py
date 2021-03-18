@@ -23,7 +23,7 @@ class JekyllExporter(MarkdownExporter):
         os.path.join(os.path.dirname(__file__), "templates")
     ]
 
-    # enable the jekyll preprocessor
+    # enable the jekyll preprocessors
     preprocessors = [
         "nbtojekyll.FrontMatterPreprocessor",
         "nbtojekyll.JavaMagicsPreprocessor",
