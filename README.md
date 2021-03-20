@@ -45,6 +45,10 @@ jupyter nbtojekyll <ARGUMENTS>
 ```
 nbtojekyll uses nbconvert under the hood and therefore supports all the commandline arguments that
 nbconvert supports.
+
+The only change from nbconvert is that the output directory of the converted file is now relative 
+to the current working directory, instead of to the notebook being converted.
+
 It additionally adds the following options:
 
 - `--site-dir SITE_DIR`: If specified, SITE_DIR should be the path to the root of the Jekyll site

@@ -12,7 +12,7 @@ class ImageExtractionPreprocessor(Preprocessor):
     """
 
     output_filename_template = Unicode(
-        "attach_{cell_index}_{name}"
+        "{notebook_name}_attach_{cell_index}_{name}"
     ).tag(config=True)
 
     extract_output_types = Set(
@@ -45,6 +45,7 @@ class ImageExtractionPreprocessor(Preprocessor):
                 data = a2b_base64(data)
 
                 filename = self.output_filename_template.format(
+                    notebook_name=resources["metadata"]["name"],
                     cell_index=cell_index,
                     name=name
                 )
