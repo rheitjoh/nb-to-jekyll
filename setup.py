@@ -10,7 +10,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3"
     ],
-    packages=["nbtojekyll"],
+    packages=["nbtojekyll", "nbtojekyll.preprocessors"],
     include_package_data=True,
     entry_points={
         "nbconvert.exporters": [

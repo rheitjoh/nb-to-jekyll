@@ -25,9 +25,10 @@ class JekyllExporter(MarkdownExporter):
 
     # enable the jekyll preprocessors
     preprocessors = [
-        "nbtojekyll.FrontMatterPreprocessor",
-        "nbtojekyll.JavaMagicsPreprocessor",
-        "nbtojekyll.LatexDelimiterPreprocessor"
+        "nbtojekyll.preprocessors.FrontMatterPreprocessor",
+        "nbtojekyll.preprocessors.JavaMagicsPreprocessor",
+        "nbtojekyll.preprocessors.LatexDelimiterPreprocessor",
+        "nbtojekyll.preprocessors.ImageExtractionPreprocessor"
     ]
 
     # name of the template to use for exporting
@@ -39,7 +40,8 @@ class JekyllExporter(MarkdownExporter):
         config = Config({
             "FrontMatterPreprocessor": {"enabled": True},
             "JavaMagicsPreprocessor": {"enabled": True},
-            "LatexDelimiterPreprocessor": {"enabled": True}
+            "LatexDelimiterPreprocessor": {"enabled": True},
+            "ImageExtractionPreprocessor": {"enabled": True}
         })
         config.merge(super().default_config)
         # we use our own magics preprocessor so we remove the default one
