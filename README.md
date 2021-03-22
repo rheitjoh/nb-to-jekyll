@@ -18,7 +18,14 @@ Inspired by the [jekyllnb](https://github.com/klane/jekyllnb) library.
 
 - Extraction of images included in the notebook
 
-- Automatic addition of a YAML Front Matter with title, table of contents, and mathjax enabled.
+- Automatic addition of a YAML Front Matter with title, table of contents, and Mathjax enabled.
+  The title will be the same as the name of the Jupyter notebook. 
+  The table of contents option is specific to the 
+  [Minimal Mistakes Theme](https://mmistakes.github.io/minimal-mistakes) and may not apply to your
+  use case. Similarly for the Mathjax option.
+
+- Automatic insertion of a Binder link into the Markdown document for interactive execution of the 
+  Jupyter notebook.
 
 ## Quickstart
 
@@ -63,6 +70,11 @@ It additionally adds the following options:
 - `--image-dir IMAGE_DIR`: If specified, IMAGE_DIR should be the path where the extracted images 
   should be stored relative to the Jekyll site root path. The path should be given without a leading
   separator. Default is `assets/images`.
+  
+- `--binder-link BINDER_LINK`: If specified, BINDER_LINK should be the Binder URL that can be 
+  visited to check out the notebook interactively. The conversion script will then insert a 
+  clickable badge at the end of where was the first cell of the converted Jupyter notebook.
+  If you don't like this position, you can move it manually after conversion.
   
 These arguments are optional. 
 However, make sure that the Jekyll site root directory is the current working directory when 
