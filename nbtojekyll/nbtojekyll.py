@@ -7,7 +7,8 @@ nbtojekyll_aliases = {}
 nbtojekyll_aliases.update(nbconvert_aliases)
 nbtojekyll_aliases.update({
     "image-dir": "NBToJekyll.image_dir",
-    "site-dir": "NBToJekyll.site_dir"
+    "site-dir": "NBToJekyll.site_dir",
+    "binder-link": "NBToJekyll.binder_link"
 })
 
 
@@ -29,6 +30,13 @@ class NBToJekyll(NbConvertApp):
         help="""Directory in which to place extracted images. Root is the Jekyll site directory.
         For example, 'assets/images'. Path should not start with a '/'!
         """
+    ).tag(config=True)
+
+    binder_link = Unicode(
+        "",
+        help="""""Full link to the Jupyter notebook on Binder. Specifiying this argument will 
+        induce addition of a note at the end of the first section where the user can access the 
+        Binder link."""
     ).tag(config=True)
 
     @default("export_format")
@@ -66,5 +74,11 @@ class NBToJekyll(NbConvertApp):
         self.log.info("Site dir '%s'", str(resources["site_dir"]))
         self.log.info("Extracted images will be stored in '%s'",
                       os.path.join(resources["site_dir"], resources["image_dir"]))
+
+        resources["binder_link"] = self.binder_link
+        if resources["binder_link"] != "":
+            self.log.info("Binder link specified as '%s'", str(resources["binder_link"]))
+        else:
+            self.log.debug("No binder link specified. Not inserting it")
 
         return resources

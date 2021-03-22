@@ -1,9 +1,13 @@
 # nbtojekyll
 Converts Jupyter Java notebooks to Markdown that can be rendered using Jekyll, Kramdown, and Mathjax.
 
+Developed specifically for the [Crpytimeleon documentation](https://github.
+com/cryptimeleon/cryptimeleon.github.io).
+Some defaults may be tailored towards that.
+
 Currently Work in Progress.
 
-Inspired by the [JekyllNB](https://github.com/klane/jekyllnb) package.
+Inspired by the [jekyllnb](https://github.com/klane/jekyllnb) library.
 
 ## Features
 
