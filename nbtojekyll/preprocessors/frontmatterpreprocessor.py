@@ -1,8 +1,16 @@
 from nbconvert.preprocessors import Preprocessor
+from traitlets import Bool, Unicode
 
 
 class FrontMatterPreprocessor(Preprocessor):
     """Preprocessor to add Jekyll metadata"""
+
+    disable_toc = Bool(False).tag(config=True)
+    disable_mathjax = Bool(False).tag(config=True)
+    title = Unicode(
+        "",
+        help="Title of the Markdown page as given in the YAML Front Matter"
+    ).tag(config=True)
 
     def preprocess(self, nb, resources):
         """Preprocess notebook
@@ -16,10 +24,11 @@ class FrontMatterPreprocessor(Preprocessor):
             NotebookNode: Modified notebook.
             dict: Modified resources dictionary.
         """
-        name = resources["metadata"]["name"]
-        # TODO: Make TOC and Mathjax be settable using cli argument
-        # TODO: Use first head for title instead of name?
-        metadata = {"title": name, "toc": "true", "mathjax": "true"}
+        toc = "true" if not self.disable_toc else "false"
+        mathjax = "true" if not self.disable_mathjax else "false"
+
+        metadata = {}
+        metadata.update({"title": self.title, "toc": toc, "mathjax": mathjax})
         resources["metadata"]["jekyll"] = metadata
 
         return nb, resources
