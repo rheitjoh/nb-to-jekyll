@@ -4,8 +4,6 @@ Converts Jupyter Java notebooks to Markdown that can be rendered using Jekyll, K
 Developed specifically for the [Cryptimeleon documentation](https://github.com/cryptimeleon/cryptimeleon.github.io).
 Some defaults may be tailored towards that.
 
-Currently Work in Progress.
-
 Inspired by the [jekyllnb](https://github.com/klane/jekyllnb) library.
 
 ## Features
