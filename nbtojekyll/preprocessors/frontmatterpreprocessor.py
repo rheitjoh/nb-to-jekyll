@@ -5,8 +5,8 @@ from traitlets import Bool, Unicode
 class FrontMatterPreprocessor(Preprocessor):
     """Preprocessor to add Jekyll metadata"""
 
-    disable_toc = Bool(False).tag(config=True)
-    disable_mathjax = Bool(False).tag(config=True)
+    enable_toc = Bool(False).tag(config=True)
+    enable_mathjax = Bool(False).tag(config=True)
     title = Unicode(
         "",
         help="Title of the Markdown page as given in the YAML Front Matter"
@@ -24,11 +24,12 @@ class FrontMatterPreprocessor(Preprocessor):
             NotebookNode: Modified notebook.
             dict: Modified resources dictionary.
         """
-        toc = "true" if not self.disable_toc else "false"
-        mathjax = "true" if not self.disable_mathjax else "false"
-
         metadata = {}
-        metadata.update({"title": self.title, "toc": toc, "mathjax": mathjax})
+        metadata.update({"title": self.title})
+        if self.enable_toc:
+            metadata.update({"toc": "true"})
+        if self.enable_mathjax:
+            metadata.update({"mathjax": "true"})
         resources["metadata"]["jekyll"] = metadata
 
         return nb, resources

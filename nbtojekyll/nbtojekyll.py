@@ -1,7 +1,5 @@
-import os
-
 from nbconvert.nbconvertapp import NbConvertApp, nbconvert_aliases, __version__, nbconvert_flags
-from traitlets import default, observe, Unicode, Bool
+from traitlets import default, observe
 
 nbtojekyll_aliases = {}
 nbtojekyll_aliases.update(nbconvert_aliases)
@@ -9,6 +7,7 @@ nbtojekyll_aliases.update({
     "image-dir": "ImageExtractionPreprocessor.image_dir",
     "site-dir": "NBToJekyll.site_dir",
     "binder-link": "BinderLinkPreprocessor.binder_link",
+    "binder-link-cell": "BinderLinkPreprocessor.binder_link_cell",
     "md-title": "FrontMatterPreprocessor.title"
 })
 
@@ -16,17 +15,17 @@ nbtojekyll_flags = {}
 nbtojekyll_flags.update(nbconvert_flags)
 nbtojekyll_flags.update(
     {
-        "disable-toc": (
+        "enable-toc": (
             {"FrontMatterPreprocessor": {
-                "disable_toc": True
+                "enable_toc": True
             }},
-            "don't enable table of contents generation in YAML Front Matter of Markdown file"
+            "enable table of contents generation in YAML Front Matter of Markdown file"
         ),
-        "disable-mathjax": (
+        "enable-mathjax": (
             {"FrontMatterPreprocessor": {
-                "disable_mathjax": True
+                "enable_mathjax": True
             }},
-            "don't enable Mathjax in YAML Front Matter of Markdown file"
+            "enable Mathjax in YAML Front Matter of Markdown file"
         )
     }
 )
