@@ -1,43 +1,43 @@
-import os
-
-from nbconvert.nbconvertapp import NbConvertApp, nbconvert_aliases, __version__
-from traitlets import default, observe, Unicode
+from nbconvert.nbconvertapp import NbConvertApp, nbconvert_aliases, __version__, nbconvert_flags
+from traitlets import default, observe
 
 nbtojekyll_aliases = {}
 nbtojekyll_aliases.update(nbconvert_aliases)
 nbtojekyll_aliases.update({
-    "image-dir": "NBToJekyll.image_dir",
+    "image-dir": "ImageExtractionPreprocessor.image_dir",
     "site-dir": "NBToJekyll.site_dir",
-    "binder-link": "NBToJekyll.binder_link"
+    "binder-link": "BinderLinkPreprocessor.binder_link",
+    "binder-link-cell": "BinderLinkPreprocessor.binder_link_cell",
+    "md-title": "FrontMatterPreprocessor.title"
 })
+
+nbtojekyll_flags = {}
+nbtojekyll_flags.update(nbconvert_flags)
+nbtojekyll_flags.update(
+    {
+        "enable-toc": (
+            {"FrontMatterPreprocessor": {
+                "enable_toc": True
+            }},
+            "enable table of contents generation in YAML Front Matter of Markdown file"
+        ),
+        "enable-mathjax": (
+            {"FrontMatterPreprocessor": {
+                "enable_mathjax": True
+            }},
+            "enable Mathjax in YAML Front Matter of Markdown file"
+        )
+    }
+)
 
 
 class NBToJekyll(NbConvertApp):
-
     version = __version__
     name = "jupyter-nbtojeykyll"
     description = "Convert Java Jupyter notebooks to Markdown compatible with Jekyll and Mathjax."
 
     aliases = nbtojekyll_aliases
-
-    site_dir = Unicode(
-        ".",
-        help="The root directory of the Jekyll site."
-    ).tag(config=True)
-
-    image_dir = Unicode(
-        "assets/images",
-        help="""Directory in which to place extracted images. Root is the Jekyll site directory.
-        For example, 'assets/images'. Path should not start with a '/'!
-        """
-    ).tag(config=True)
-
-    binder_link = Unicode(
-        "",
-        help="""""Full link to the Jupyter notebook on Binder. Specifiying this argument will 
-        induce addition of a note at the end of the first section where the user can access the 
-        Binder link."""
-    ).tag(config=True)
+    flags = nbtojekyll_flags
 
     @default("export_format")
     def _export_format_default(self):
@@ -60,25 +60,3 @@ class NBToJekyll(NbConvertApp):
         # given Jekyll site dir and not the notebook dir
         if hasattr(self.writer, 'build_directory') and self.writer.build_directory == "":
             self.writer.build_directory = "."
-
-    def init_single_notebook_resources(self, notebook_filename):
-        """Initializes resources for a single notebook
-
-        :param notebook_filename: Filename of the notebook being coverted
-        :return: Fully initialized resources dictionary for notebook
-        """
-        resources = super().init_single_notebook_resources(notebook_filename)
-        resources["image_dir"] = self.image_dir
-        resources["site_dir"] = self.site_dir
-        self.log.info("Image dir '%s'", str(resources["image_dir"]))
-        self.log.info("Site dir '%s'", str(resources["site_dir"]))
-        self.log.info("Extracted images will be stored in '%s'",
-                      os.path.join(resources["site_dir"], resources["image_dir"]))
-
-        resources["binder_link"] = self.binder_link
-        if resources["binder_link"] != "":
-            self.log.info("Binder link specified as '%s'", str(resources["binder_link"]))
-        else:
-            self.log.debug("No binder link specified. Not inserting it")
-
-        return resources
